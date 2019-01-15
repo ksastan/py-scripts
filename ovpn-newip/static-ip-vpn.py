@@ -97,7 +97,7 @@ if __name__ == '__main__':
     backup(namespace.type, 'tcp')
     # read file with last ip, generate and return new string
     last_ip_string = readIP(lastip_path, namespace.type, 'tcp')
-    # create config file in OpenVPN path with second free ip, update lastip.txt
+    # create config file in OpenVPN path with next free ip, update lastip.txt
     createFile(namespace.eTokenName, last_ip_string, vpnpath, namespace.type, 'tcp')
     print('Config file for tcp connection created:')
     print(namespace.eTokenName + ': ' + last_ip_string + '\n')
