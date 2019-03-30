@@ -1,1 +1,6 @@
 .db-api/
+db-api
+licenses/env
+licenses/__pycache__
+licenses.db
+studie
