@@ -4,3 +4,4 @@ licenses/env
 licenses/__pycache__
 licenses.db
 studie
+flask-studie/env
