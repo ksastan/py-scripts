@@ -1,0 +1,14 @@
+{%  extends "base.html" %}
+
+{% block title %}Licenses list{% endblock %}
+{% block content %}
+    <div>
+        <ul>
+            <h1>Portal has been developed by skuchinskiy</h1>
+            {% for row in all_licenses %}
+                <li>{{ row.software_name }}</li>
+                <li>{{ row.key }}</li>
+            {% endfor %}
+        </ul>
+    </div>
+{% endblock %}

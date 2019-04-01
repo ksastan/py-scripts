@@ -4,12 +4,14 @@ from flask_wtf import FlaskForm
 from wtforms import StringField, SubmitField
 from wtforms.validators import Required
 from flask_script import Manager
+import models
 
 
 class LicensesForm(FlaskForm):
     '''
     form shows all licenses
     '''
+    software_name = StringField('Enter software name:', validators=[Required()])
     # submit button
     searchbutton = SubmitField('Search')
 
@@ -23,11 +25,10 @@ app.config['SECRET_KEY'] = 'Set_your-Secret3Key'
 def index():
     return render_template('index.html')
 
-
 @app.route('/showlall', methods=['GET', 'POST'])
-def socket():
-    return render_template('showall.html')
-
+def showall():
+    all_licenses = models.get_all_licenses()
+    return render_template('showall.html', all_licenses=all_licenses)
 
 manager = Manager(app)
 
