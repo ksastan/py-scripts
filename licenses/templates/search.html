@@ -4,9 +4,11 @@
 {% block content %}
     <div class="container">
     <div class="page-header">
+      <div>
         {{ wtf.quick_form(form) }}
+      </div>
         <ul>
-            <h1>List all licenses</h1>
+            <h1>Show licenses:</h1>
                 <table class="table table-striped">
                 <thead class="thead-inverse">
                     <tr>
@@ -30,8 +32,12 @@
                     <td>{{ row.key }}</td>
                     <td>{{ row.folder }}</td>
                     <td>{{ row.version }}</td>
-                    <td>{{ row.start_date }}</td>
-                    <td>{{ row.end_date }}</td>
+                    <td>{% if row.start_date %}
+                    {{ row.start_date.strftime("%d.%m.%Y") }}
+                    {% endif %}</td>
+                    <td>{% if row.end_date.strftime %}
+                    {{ row.end_date.strftime("%d.%m.%Y") }}
+                    {% endif %}</td>
                     <td>{{ row.user }}</td>
                     <td>{{ row.comment }}</td>
                     </tr>

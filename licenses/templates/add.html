@@ -2,9 +2,10 @@
 
 {% block title %}OW Licenses{% endblock %}
 {% block content %}
-    <div>
+    <div class="container">
+    <div class="page-header">
         <ul>
-            <h1>Licenses list:</h1>
+            <h1>List license:</h1>
                 <table class="table table-striped">
                 <thead class="thead-inverse">
                     <tr>
@@ -20,7 +21,8 @@
                     </tr>
                 </thead>
                 <tbody>
-                  {% for row in all_licenses %}
+                {% if search_results %}
+                  {% for row in search_results %}
                     <tr>
                     <th scope="row">{{ row.key_id }}</th>
                     <td>{{ row.software_name }}</td>
@@ -35,11 +37,16 @@
                     {% endif %}</td>
                     <td>{{ row.user }}</td>
                     <td>{{ row.comment }}</td>
-                    <td><a href="{{ url_for('delete_license', id=row.key_id) }}">Delete</a></td>
                     </tr>
                   {% endfor %}
+                {% else %}
+                {% endif %}
                 </tbody>
                 </table>
         </ul>
+        <div class="col-sm-10 col-md-6">
+        {{ wtf.quick_form(form) }}
+        </div>
+    </div>
     </div>
 {% endblock %}

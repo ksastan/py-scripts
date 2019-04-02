@@ -53,7 +53,7 @@ def del_license(key_id):
     '''
     try:
         license = XLicenses.get(XLicenses.key_id == key_id)
-        #license.delete_instance()
+        license.delete_instance()
         print("License with id %s and name %s - deleted" % (key_id, license.software_name))
     except:
         print("License with id %s - not found" % key_id)
