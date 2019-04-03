@@ -49,7 +49,7 @@ def add_license(software_name, key, folder="", version="", start_date=None, end_
 
 def del_license(key_id):
     '''
-    delte license by key_id
+    delete license by key_id
     '''
     try:
         license = XLicenses.get(XLicenses.key_id == key_id)
@@ -93,34 +93,52 @@ def create_table():
 def get_all_licenses():
     selected_licenses = []
     for row in XLicenses.select():
-        try:
-            selected_licenses.append(row)
-            print("Key_id=" + str(row.key_id) + " | Software_name=" + row.software_name + " | Key=" + row.key + " | End=" + row.end_date.strftime("%d.%m.%Y"))
-        except AttributeError:
-            selected_licenses.append(row)
-            print("Key_id=" + str(row.key_id) + " | Software_name=" + row.software_name)
+        selected_licenses.append(row)
+        #print("Key_id=" + str(row.key_id) + " | Software_name=" + row.software_name + " | Key=" + row.key + " | End=" + row.end_date.strftime("%d.%m.%Y"))
     return(selected_licenses)
 
 def get_license_by_name(software_name):
     selected_licenses = []
     for row in XLicenses.select().where(XLicenses.software_name == software_name):
-        try:
-            selected_licenses.append(row)
-            print("Key_id=" + str(row.key_id) + " | Software_name=" + row.software_name + " | Key=" + row.key + " | End=" + row.end_date.strftime("%d.%m.%Y"))
-        except AttributeError:
-            selected_licenses.append(row)
-            print("Key_id=" + str(row.key_id) + " | Software_name=" + row.software_name)
+        selected_licenses.append(row)
+        #print("Key_id=" + str(row.key_id) + " | Software_name=" + row.software_name + " | Key=" + row.key + " | End=" + row.end_date.strftime("%d.%m.%Y"))
     return(selected_licenses)
 
 def get_license_by_end_date(end_date):
     selected_licenses = []
     for row in XLicenses.select().where(XLicenses.end_date <= end_date):
-        try:
+        selected_licenses.append(row)
+        #print("Key_id=" + str(row.key_id) + " | Software_name=" + row.software_name + " | Key=" + row.key + " | End=" + row.end_date.strftime("%d.%m.%Y"))
+    return(selected_licenses)
+
+def get_license_by_id(key_id):
+    selected_licenses = []
+    for row in XLicenses.select().where(XLicenses.key_id == key_id):
+        selected_licenses.append(row)
+        #print("Key_id=" + str(row.key_id) + " | Software_name=" + row.software_name + " | Key=" + row.key + " | End=" + row.end_date.strftime("%d.%m.%Y"))
+    return(selected_licenses)
+
+def get_license(key_id=None, software_name="", end_date=None):
+    '''
+    try to combain functions
+    '''
+    selected_licenses = []
+    if key_id:
+        for row in XLicenses.select().where(XLicenses.key_id == key_id):
             selected_licenses.append(row)
-            print("Key_id=" + str(row.key_id) + " | Software_name=" + row.software_name + " | Key=" + row.key + " | End=" + row.end_date.strftime("%d.%m.%Y"))
-        except AttributeError:
+            #print("Key_id=" + str(row.key_id) + " | Software_name=" + row.software_name + " | Key=" + row.key + " | End=" + row.end_date.strftime("%d.%m.%Y"))
+    elif software_name and end_date: 
+        for row in XLicenses.select().where(XLicenses.software_name == software_name):
             selected_licenses.append(row)
-            print("Key_id=" + str(row.key_id) + " | Software_name=" + row.software_name)
+            #print("Key_id=" + str(row.key_id) + " | Software_name=" + row.software_name + " | Key=" + row.key + " | End=" + row.end_date.strftime("%d.%m.%Y"))
+    elif software_name:
+        for row in XLicenses.select().where(XLicenses.software_name == software_name):
+            selected_licenses.append(row)
+            #print("Key_id=" + str(row.key_id) + " | Software_name=" + row.software_name + " | Key=" + row.key + " | End=" + row.end_date.strftime("%d.%m.%Y"))
+    elif end_date:
+        for row in XLicenses.select().where(XLicenses.end_date <= end_date):
+            selected_licenses.append(row)
+            #print("Key_id=" + str(row.key_id) + " | Software_name=" + row.software_name + " | Key=" + row.key + " | End=" + row.end_date.strftime("%d.%m.%Y"))
     return(selected_licenses)
 
 if __name__ == '__main__':
