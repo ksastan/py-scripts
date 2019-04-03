@@ -3,7 +3,7 @@ from flask_bootstrap import Bootstrap
 from flask_wtf import FlaskForm
 from wtforms import StringField, SubmitField
 from wtforms.fields.html5 import DateField
-from wtforms.validators import Required
+from wtforms.validators import Required, Optional
 from flask_script import Manager
 import models
 
@@ -24,7 +24,7 @@ class AddLicenseForm(FlaskForm):
     folder = StringField('Folder:')
     version = StringField('Version:')
     start_date = DateField('Start date:', validators=[Required()], format="%Y-%m-%d")
-    end_date = DateField('Expiration date:', format="%Y-%m-%d")
+    end_date = DateField('Expiration date:', format="%Y-%m-%d", validators=[Optional()])
     user = StringField('Owner username:', validators=[Required()])
     comment = StringField('Comment:')
     # submit button
@@ -39,7 +39,7 @@ class ChangeLicenseForm(FlaskForm):
     folder = StringField('Folder:')
     version = StringField('Version:')
     start_date = DateField('Start date:', format="%Y-%m-%d")
-    end_date = DateField('Expiration date:', format="%Y-%m-%d")
+    end_date = DateField('Expiration date:', format="%Y-%m-%d", validators=[Optional()])
     user = StringField('Owner username:')
     comment = StringField('Comment:')
     # submit button

@@ -68,20 +68,30 @@ def change_license(key_id,software_name="", key="", folder="", version="", start
             license.software_name = software_name
         if key:
             license.key = key
+        else:
+            license.key =""
         if folder:
             license.folder = folder
+        else:
+            license.folder = ""
         if version:
             license.version = version
-        if start_date:
-            license.version = version
+        else:
+            license.version = ""
         if start_date:
             license.start_date = start_date
         if end_date:
             license.end_date = end_date
+        else:
+            license.end_date = None
         if user:
             license.user = user
+        else:
+            license.user = ""
         if comment:
             license.comment = comment
+        else:
+            license.comment = ""
         license.save()
         print("License with id %s and name %s - changed" % (key_id, license.software_name))
     except:
