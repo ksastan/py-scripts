@@ -9,7 +9,6 @@
                 <table class="table table-striped">
                 <thead class="thead-inverse">
                     <tr>
-                    <th>Id</th>
                     <th>Software</th>
                     <th>Key</th>
                     <th>Folder</th>
@@ -24,8 +23,7 @@
                 {% if search_results %}
                   {% for row in search_results %}
                     <tr>
-                    <th scope="row">{{ row.key_id }}</th>
-                    <td>{{ row.software_name }}</td>
+                    <th scope="row">{{ row.software_name }}</th>
                     <td>{{ row.key }}</td>
                     <td>{{ row.folder }}</td>
                     <td>{{ row.version }}</td>
@@ -46,6 +44,7 @@
         </ul>
         <div class="col-sm-10 col-md-6">
         {{ wtf.quick_form(form) }}
+        <br>
         </div>
     </div>
     </div>

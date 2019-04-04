@@ -35,17 +35,20 @@ def init_db():
     )
     print("db Licenses is created with test string KES")
 
-def add_license(software_name, key, folder="", version="", start_date=None, end_date=None, user="", comment=""):
-    XLicenses.create(
-        software_name=software_name,
-        key=key,
-        folder=folder,
-        version=version,
-        start_date=start_date,
-        end_date=end_date,
-        user=user
-    )
-    print("New license added - %s" % software_name)
+def add_license(software_name, key, folder="", version="", start_date=None, end_date=None, user="", comment="", count=1):
+    i = 0
+    while i < count:
+        XLicenses.create(
+            software_name=software_name,
+            key=key,
+            folder=folder,
+            version=version,
+            start_date=start_date,
+            end_date=end_date,
+            user=user
+        )
+        i = i + 1
+        print("New license added - %s" % software_name)
 
 def del_license(key_id):
     '''
@@ -100,55 +103,31 @@ def change_license(key_id,software_name="", key="", folder="", version="", start
 def create_table():
     XLicenses.create_table()
 
-def get_all_licenses():
-    selected_licenses = []
-    for row in XLicenses.select():
-        selected_licenses.append(row)
-        #print("Key_id=" + str(row.key_id) + " | Software_name=" + row.software_name + " | Key=" + row.key + " | End=" + row.end_date.strftime("%d.%m.%Y"))
-    return(selected_licenses)
-
-def get_license_by_name(software_name):
-    selected_licenses = []
-    for row in XLicenses.select().where(XLicenses.software_name == software_name):
-        selected_licenses.append(row)
-        #print("Key_id=" + str(row.key_id) + " | Software_name=" + row.software_name + " | Key=" + row.key + " | End=" + row.end_date.strftime("%d.%m.%Y"))
-    return(selected_licenses)
-
-def get_license_by_end_date(end_date):
-    selected_licenses = []
-    for row in XLicenses.select().where(XLicenses.end_date <= end_date):
-        selected_licenses.append(row)
-        #print("Key_id=" + str(row.key_id) + " | Software_name=" + row.software_name + " | Key=" + row.key + " | End=" + row.end_date.strftime("%d.%m.%Y"))
-    return(selected_licenses)
-
-def get_license_by_id(key_id):
-    selected_licenses = []
-    for row in XLicenses.select().where(XLicenses.key_id == key_id):
-        selected_licenses.append(row)
-        #print("Key_id=" + str(row.key_id) + " | Software_name=" + row.software_name + " | Key=" + row.key + " | End=" + row.end_date.strftime("%d.%m.%Y"))
-    return(selected_licenses)
-
 def get_license(key_id=None, software_name="", end_date=None):
     '''
-    try to combain functions
+    get licenses by key_id, software_name or end_date
     '''
     selected_licenses = []
     if key_id:
         for row in XLicenses.select().where(XLicenses.key_id == key_id):
             selected_licenses.append(row)
-            #print("Key_id=" + str(row.key_id) + " | Software_name=" + row.software_name + " | Key=" + row.key + " | End=" + row.end_date.strftime("%d.%m.%Y"))
+            print("By key_id Key_id=" + str(row.key_id) + " | Software_name=" + row.software_name + " | Key=" + row.key)
     elif software_name and end_date: 
-        for row in XLicenses.select().where(XLicenses.software_name == software_name):
+        for row in XLicenses.select().where(XLicenses.software_name == software_name, XLicenses.end_date <= end_date):
             selected_licenses.append(row)
-            #print("Key_id=" + str(row.key_id) + " | Software_name=" + row.software_name + " | Key=" + row.key + " | End=" + row.end_date.strftime("%d.%m.%Y"))
+            print("By softwrae_name and Date Key_id=" + str(row.key_id) + " | Software_name=" + row.software_name + " | Key=" + row.key)
     elif software_name:
         for row in XLicenses.select().where(XLicenses.software_name == software_name):
             selected_licenses.append(row)
-            #print("Key_id=" + str(row.key_id) + " | Software_name=" + row.software_name + " | Key=" + row.key + " | End=" + row.end_date.strftime("%d.%m.%Y"))
+            print("By software name Key_id=" + str(row.key_id) + " | Software_name=" + row.software_name + " | Key=" + row.key)
     elif end_date:
         for row in XLicenses.select().where(XLicenses.end_date <= end_date):
             selected_licenses.append(row)
-            #print("Key_id=" + str(row.key_id) + " | Software_name=" + row.software_name + " | Key=" + row.key + " | End=" + row.end_date.strftime("%d.%m.%Y"))
+            print("By end_date Key_id=" + str(row.key_id) + " | Software_name=" + row.software_name + " | Key=" + row.key)
+    else:
+        for row in XLicenses.select():
+            selected_licenses.append(row)
+            print("All licenses Key_id=" + str(row.key_id) + " | Software_name=" + row.software_name + " | Key=" + row.key)
     return(selected_licenses)
 
 if __name__ == '__main__':
@@ -159,7 +138,6 @@ if __name__ == '__main__':
     end_date = datetime.date(2020, 3, 25)
     
     print("-"*10 + "Show all"+"-"*50)
-    a = get_all_licenses()
     #print("-"*10 + "Show KES"+"-"*50)
     #get_license_by_name("KES")
     #print("-"*10 + "Show PRTG"+"-"*50)

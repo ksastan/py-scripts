@@ -1,5 +1,4 @@
 {%  extends "base.html" %}
-
 {% block title %}OW Licenses{% endblock %}
 {% block content %}
     <div class="container">
@@ -9,7 +8,6 @@
                 <table class="table table-striped">
                 <thead class="thead-inverse">
                     <tr>
-                    <th>Id</th>
                     <th>Software</th>
                     <th>Key</th>
                     <th>Folder</th>
@@ -24,8 +22,7 @@
                 {% if search_results %}
                   {% for row in search_results %}
                     <tr>
-                    <th scope="row">{{ row.key_id }}</th>
-                    <td>{{ row.software_name }}</td>
+                    <th scope="row">{{ row.software_name }}</th>
                     <td>{{ row.key }}</td>
                     <td>{{ row.folder }}</td>
                     <td>{{ row.version }}</td>
@@ -44,7 +41,7 @@
                 </tbody>
                 </table>
         </ul>
-        <div>
+        <div class="col-sm-10 col-md-6">
         <form action = "" method = post>
             {{ form.hidden_tag() }}
                {{ wtf.form_field(form.software_name, class='form-control', value=search_results[0].software_name) }}
@@ -56,8 +53,8 @@
                {{ wtf.form_field(form.user, class='form-control', value=search_results[0].user) }}
                {{ wtf.form_field(form.comment, class='form-control', value=search_results[0].comment) }}
                {{ wtf.form_field(form.addbutton) }}
-
            </form>
+           <br>
         </div>
     </div>
     </div>
