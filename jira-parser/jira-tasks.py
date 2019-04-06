@@ -7,7 +7,7 @@ def load_json(url):
 
 
 if __name__ == '__main__':
-    url = 'https://jira-url/rest/api/latest/search?jql=project=TS+AND+assignee=null+AND+status!=Closed'
+    url = 'https://jira-url/rest/api/latest/search?jql=project=<someproject>+AND+assignee=null+AND+status!=Closed'
     data = json.loads(load_json(url))
     iss = []
     for i in range(len(data['issues'])):
