@@ -61,14 +61,6 @@ def showall():
         search_results = models.get_license(software_name=form.software_name.data, end_date=form.end_date.data)
     return render_template('showall.html', form=form, search_results=search_results)
 
-@app.route('/search', methods=['GET', 'POST'])
-def socket():
-    form = SearchLicenseForm()
-    search_results = None
-    if form.validate_on_submit():
-        search_results = models.get_license(software_name=form.software_name.data, end_date=form.end_date.data)
-    return render_template('search.html', search_results=search_results, form=form)
-
 @app.route('/add', methods=['GET', 'POST'])
 def add():
     form = AddLicenseForm()
@@ -94,8 +86,8 @@ def delete_license(id):
     Delete a license from the database
     """
     form = SearchLicenseForm()
+    search_results = models.get_license(id)
     models.del_license(id)
-    search_results = models.get_license()
     return render_template('showall.html', search_results=search_results, form=form)
 
 @app.route('/change/<int:id>', methods=['GET', 'POST'])

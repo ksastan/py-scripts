@@ -5,3 +5,6 @@ licenses/__pycache__
 licenses.db
 studie
 flask-studie/env
+licenses.csv
+licenses/csv
+licenses.db.1
