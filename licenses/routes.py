@@ -29,7 +29,6 @@ class AddLicenseForm(FlaskForm):
     user = StringField('Owner username:', validators=[Required()])
     comment = StringField('Comment:')
     count = IntegerField('How many strings:')
-    # submit button
     addbutton = SubmitField('Add')
 
 class ChangeLicenseForm(FlaskForm):
@@ -44,8 +43,7 @@ class ChangeLicenseForm(FlaskForm):
     end_date = DateField('Expiration date:', format="%Y-%m-%d", validators=[Optional()])
     user = StringField('Owner username:')
     comment = StringField('Comment:')
-    # submit button
-    addbutton = SubmitField('Edit')
+    editbutton = SubmitField('Edit')
 
 
 app = Flask(__name__)
@@ -80,15 +78,16 @@ def add():
         search_results = models.get_license(software_name=form.software_name.data)
     return render_template('add.html', search_results=search_results, form=form)
 
-@app.route('/delete/<int:id>', methods=['GET', 'POST'])
-def delete_license(id):
-    """
+@app.route('/delete/<int:id>/<int:approve>', methods=['GET', 'POST'])
+def delete_license(id, approve):
+    '''
     Delete a license from the database
-    """
+    '''
     form = SearchLicenseForm()
+    if approve == 1:
+        models.del_license(id)
     search_results = models.get_license(id)
-    models.del_license(id)
-    return render_template('showall.html', search_results=search_results, form=form)
+    return render_template('delete.html', search_results=search_results, form=form)
 
 @app.route('/change/<int:id>', methods=['GET', 'POST'])
 def change_license(id):

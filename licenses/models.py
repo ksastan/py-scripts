@@ -1,4 +1,4 @@
-from peewee import SqliteDatabase, Model, PrimaryKeyField, TextField, DateField, DateTimeField, datetime
+from peewee import SqliteDatabase, Model, PrimaryKeyField, TextField, DateField, DateTimeField, datetime, fn
 from config import DB_NAME
 
 db = SqliteDatabase(DB_NAME)
@@ -132,24 +132,24 @@ def get_license(key_id=None, software_name="", end_date=None):
     if key_id:
         for row in XLicenses.select().where(XLicenses.key_id == key_id):
             selected_licenses.append(row)
-            print("By key_id Key_id=" + str(row.key_id) + " | Software_name=" + row.software_name + " | Key=" + row.key)
+            #print("By key_id Key_id=" + str(row.key_id) + " | Software_name=" + row.software_name + " | Key=" + row.key)
     elif software_name and end_date: 
-        for row in XLicenses.select().where(XLicenses.software_name == software_name, XLicenses.end_date <= end_date):
+        for row in XLicenses.select().where(fn.Lower(XLicenses.software_name.contains(software_name.lower())), XLicenses.end_date <= end_date):
             selected_licenses.append(row)
             print("By softwrae_name and Date Key_id=" + str(row.key_id) + " | Software_name=" + row.software_name + " | Key=" + row.key)
     elif software_name:
-        for row in XLicenses.select().where(XLicenses.software_name == software_name):
+        for row in XLicenses.select().where(fn.Lower(XLicenses.software_name.contains(software_name.lower()))):
             selected_licenses.append(row)
             print("By software name Key_id=" + str(row.key_id) + " | Software_name=" + row.software_name + " | Key=" + row.key)
     elif end_date:
         for row in XLicenses.select().where(XLicenses.end_date <= end_date, XLicenses.end_date >= datetime.datetime.today()):
             if row.end_date:
                 selected_licenses.append(row)
-                print("By end_date Key_id=" + str(row.key_id) + " | Software_name=" + row.software_name + " | Key=" + row.key)
+                #print("By end_date Key_id=" + str(row.key_id) + " | Software_name=" + row.software_name + " | Key=" + row.key)
     else:
         for row in XLicenses.select():
             selected_licenses.append(row)
-            print("All licenses Key_id=" + str(row.key_id) + " | Software_name=" + row.software_name + " | Key=" + row.key)
+            #print("All licenses Key_id=" + str(row.key_id) + " | Software_name=" + row.software_name + " | Key=" + row.key)
     return(selected_licenses)
 
 if __name__ == '__main__':
