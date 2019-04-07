@@ -4,7 +4,6 @@
     <div class="container">
     <div class="page-header">
         <ul>
-            <h1>List license:</h1>
                 <table class="table table-striped">
                 <thead class="thead-inverse">
                     <tr>
@@ -52,7 +51,7 @@
                {{ wtf.form_field(form.end_date, class='form-control', value=search_results[0].end_date) }}
                {{ wtf.form_field(form.user, class='form-control', value=search_results[0].user) }}
                {{ wtf.form_field(form.comment, class='form-control', value=search_results[0].comment) }}
-               {{ wtf.form_field(form.addbutton) }}
+               {{ wtf.form_field(form.editbutton) }}
            </form>
            <br>
         </div>

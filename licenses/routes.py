@@ -13,7 +13,6 @@ class SearchLicenseForm(FlaskForm):
     '''
     software_name = StringField('Enter software name:')
     end_date = DateField('Expiration date less:', format="%Y-%m-%d", validators=[Optional()])
-    # submit button
     searchbutton = SubmitField('Search')
 
 class AddLicenseForm(FlaskForm):

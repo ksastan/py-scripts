@@ -93,7 +93,7 @@ def change_license(key_id,software_name="", key="", folder="", version="", start
         if key:
             license.key = key
         else:
-            license.key =""
+            license.key = ""
         if folder:
             license.folder = folder
         else:
