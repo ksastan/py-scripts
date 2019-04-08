@@ -1,5 +1,5 @@
 from peewee import SqliteDatabase, Model, PrimaryKeyField, TextField, DateField, DateTimeField, datetime, fn
-from config import DB_NAME
+from config import DB_NAME, log
 
 db = SqliteDatabase(DB_NAME)
 
@@ -49,7 +49,7 @@ def add_license(software_name, key, folder="", version="", start_date=None, end_
             comment = comment
         )
         i = i + 1
-        print("New license added - %s" % software_name)
+        log.info("License added - %s" % software_name)
 
 def add_license_parser(software_name, key, folder="", version="", start_date=None, end_date=None, user="", comment=""):
     '''
@@ -69,7 +69,7 @@ def add_license_parser(software_name, key, folder="", version="", start_date=Non
         user=user,
         comment = comment
     )
-    print("New license added - %s" % software_name)
+    log.info("New license added - %s" % software_name)
 
 def del_license(key_id):
     '''
@@ -78,9 +78,11 @@ def del_license(key_id):
     try:
         license = XLicenses.get(XLicenses.key_id == key_id)
         license.delete_instance()
-        print("License with id %s and name %s - deleted" % (key_id, license.software_name))
+        log.info("License with id %s and name %s - deleted" % (key_id, license.software_name))
+        return(True)
     except:
-        print("License with id %s - not found" % key_id)
+        log.info("License with id %s - not found" % key_id)
+        return(False)
 
 def change_license(key_id,software_name="", key="", folder="", version="", start_date="", end_date=datetime.date(2050, 12, 12), user="", comment=""):
     '''
@@ -117,9 +119,9 @@ def change_license(key_id,software_name="", key="", folder="", version="", start
         else:
             license.comment = ""
         license.save()
-        print("License with id %s and name %s - changed" % (key_id, license.software_name))
+        log.info("License with id %s and name %s - changed" % (key_id, license.software_name))
     except:
-        print("License with id %s - not found" % key_id)
+        log.info("License with id %s - not found" % key_id)
 
 def create_table():
     XLicenses.create_table()
@@ -132,24 +134,24 @@ def get_license(key_id=None, software_name="", end_date=None):
     if key_id:
         for row in XLicenses.select().where(XLicenses.key_id == key_id):
             selected_licenses.append(row)
-            #print("By key_id Key_id=" + str(row.key_id) + " | Software_name=" + row.software_name + " | Key=" + row.key)
+            log.debug("By key_id Key_id=" + str(row.key_id) + " | Software_name=" + row.software_name + " | Key=" + row.key)
     elif software_name and end_date: 
-        for row in XLicenses.select().where(fn.Lower(XLicenses.software_name.contains(software_name.lower())), XLicenses.end_date <= end_date):
+        for row in XLicenses.select().where(fn.Lower(XLicenses.software_name.contains(software_name.lower())), XLicenses.end_date <= end_date, XLicenses.end_date >= datetime.datetime(2010, 1, 1)):
             selected_licenses.append(row)
-            print("By softwrae_name and Date Key_id=" + str(row.key_id) + " | Software_name=" + row.software_name + " | Key=" + row.key)
+            log.debug("By software_name and Date Key_id=" + str(row.key_id) + " | Software_name=" + row.software_name + " | Key=" + row.key)
     elif software_name:
         for row in XLicenses.select().where(fn.Lower(XLicenses.software_name.contains(software_name.lower()))):
             selected_licenses.append(row)
-            print("By software name Key_id=" + str(row.key_id) + " | Software_name=" + row.software_name + " | Key=" + row.key)
+            log.debug("By software name Key_id=" + str(row.key_id) + " | Software_name=" + row.software_name + " | Key=" + row.key)
     elif end_date:
-        for row in XLicenses.select().where(XLicenses.end_date <= end_date, XLicenses.end_date >= datetime.datetime.today()):
+        for row in XLicenses.select().where(XLicenses.end_date <= end_date, XLicenses.end_date >= datetime.datetime(2010, 1, 1)):
             if row.end_date:
                 selected_licenses.append(row)
-                #print("By end_date Key_id=" + str(row.key_id) + " | Software_name=" + row.software_name + " | Key=" + row.key)
+                log.debug("By end_date Key_id=" + str(row.key_id) + " | Software_name=" + row.software_name + " | Key=" + row.key)
     else:
         for row in XLicenses.select():
             selected_licenses.append(row)
-            #print("All licenses Key_id=" + str(row.key_id) + " | Software_name=" + row.software_name + " | Key=" + row.key)
+            log.debug("All licenses Key_id=" + str(row.key_id) + " | Software_name=" + row.software_name + " | Key=" + row.key)
     return(selected_licenses)
 
 if __name__ == '__main__':
