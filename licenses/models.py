@@ -155,23 +155,4 @@ def get_license(key_id=None, software_name="", end_date=None):
     return(selected_licenses)
 
 if __name__ == '__main__':
-    software_name = "PRTG"
-    key = "gg54hth46h245y245y54"
-    folder = "z:\\license\\PRTG"
-    start_date = datetime.date(2019, 3, 28)
-    end_date = datetime.date(2020, 3, 25)
-    
-    print("-"*10 + "Show all"+"-"*50)
-    #print("-"*10 + "Show KES"+"-"*50)
-    #get_license_by_name("KES")
-    #print("-"*10 + "Show PRTG"+"-"*50)
-    #get_license_by_name("PRTG")
-    #print("-"*10 + "Show EMPTY output"+"-"*50)
-    #get_license_by_name("EMPTY output")
-    print("-"*10 + "Show by date"+"-"*50)
-    #get_license_by_end_date(datetime.date(2020, 12, 29))
-    #init_db()
-    #add_license(software_name=software_name, key=key, folder=folder, start_date=start_date, end_date=end_date)
-    #del_license(key_id=3)
-    #change_license(key_id=4,key="22222")
     print("main - OK")

@@ -8,3 +8,5 @@ flask-studie/env
 licenses.csv
 licenses/csv
 licenses.db.1
+licenses/app.log
+licenses/delete_old.py
